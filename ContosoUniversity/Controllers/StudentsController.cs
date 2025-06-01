@@ -23,14 +23,12 @@ namespace ContosoUniversity.Controllers
         public async Task<IActionResult> Index(
             string sortOrder,
             string currentFilter,
-             string searchString,
-             int? pageNumber)
+            string searchString,
+            int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] =
-                String.IsNullOrEmpty(sortOrder) ? "LastName_desc" : "";
-            ViewData["DateSortParm"] =
-                sortOrder == "EnrollmentDate" ? "EnrollmentDate_desc" : "EnrollmentDate";
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "LastName_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "EnrollmentDate" ? "EnrollmentDate_desc" : "EnrollmentDate";
 
             if (searchString != null)
             {
@@ -114,8 +112,17 @@ namespace ContosoUniversity.Controllers
         public async Task<IActionResult> Create(
             [Bind("EnrollmentDate,FirstMidName,LastName")] Student student)
         {
+
             try
             {
+
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Erro em {state.Key}: {error.ErrorMessage}");
+                    }
+                }
 
                 if (ModelState.IsValid)
                 {
