@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ContosoUniversity.Models
 {
@@ -22,9 +23,11 @@ namespace ContosoUniversity.Models
         public int? InstructorID { get; set; }
 
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public byte[]? RowVersion { get; set; }
 
+        [ValidateNever]
         public Instructor Administrator { get; set; }
+        [ValidateNever]
         public ICollection<Course> Courses { get; set; }
     }
 }

@@ -67,8 +67,18 @@ namespace ContosoUniversity.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartmentID,Name,Budget,StartDate,InstructorID,RowVersion")] Department department)
+        public async Task<IActionResult> Create([Bind("Name,Budget,StartDate,InstructorID, RowVersion")] Department department)
         {
+           
+            foreach (var modelStateKey in ModelState.Keys)
+            {
+                var value = ModelState[modelStateKey];
+                foreach (var error in value.Errors)
+                {
+                    Console.WriteLine($"Erro na propriedade {modelStateKey}: {error.ErrorMessage}");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(department);
