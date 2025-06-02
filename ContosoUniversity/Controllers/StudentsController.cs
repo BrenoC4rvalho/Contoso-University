@@ -116,14 +116,6 @@ namespace ContosoUniversity.Controllers
             try
             {
 
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        Console.WriteLine($"Erro em {state.Key}: {error.ErrorMessage}");
-                    }
-                }
-
                 if (ModelState.IsValid)
                 {
                     _context.Add(student);

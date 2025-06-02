@@ -108,15 +108,6 @@ namespace ContosoUniversity.Controllers
                 }
             }
 
-            foreach (var modelStateKey in ModelState.Keys)
-            {
-                var value = ModelState[modelStateKey];
-                foreach (var error in value.Errors)
-                {
-                    Console.WriteLine($"Erro na propriedade {modelStateKey}: {error.ErrorMessage}");
-                }
-            }
-
             if (ModelState.IsValid)
             {
                 _context.Add(instructor);
