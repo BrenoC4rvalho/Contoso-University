@@ -94,15 +94,29 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FirstMidName,HireDate,LastName,OfficeAssignment")] Instructor instructor, string[] selectedCourses)
         {
+
+            // Inicializa coleção se não existir
+            if (instructor.CourseAssignments == null)
+                instructor.CourseAssignments = new List<CourseAssignment>();
+
+            // Prepara cursos selecionados
             if (selectedCourses != null)
             {
-                instructor.CourseAssignments = new List<CourseAssignment>();
-                foreach (var course in selectedCourses)
+                foreach (var courseId in selectedCourses)
                 {
-                    var courseToAdd = new CourseAssignment { InstructorID = instructor.ID, CourseID = int.Parse(course) };
-                    instructor.CourseAssignments.Add(courseToAdd);
+                    instructor.CourseAssignments.Add(new CourseAssignment { CourseID = int.Parse(courseId) });
                 }
             }
+
+            foreach (var modelStateKey in ModelState.Keys)
+            {
+                var value = ModelState[modelStateKey];
+                foreach (var error in value.Errors)
+                {
+                    Console.WriteLine($"Erro na propriedade {modelStateKey}: {error.ErrorMessage}");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(instructor);
